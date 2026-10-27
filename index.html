@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>哲学竞技场 · 名字决定结局</title>
+  <meta name="description" content="输入几个名字，看他们在淘汰赛里用哲学招式互相拆解。名字决定属性，也决定结局；同样的名字永远打出同样的结果。" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="masthead">
+      <p class="kicker">NAME ARENA · 哲学篇</p>
+      <h1>哲学竞技场</h1>
+      <p class="lede">
+        输入几个名字，看他们如何在淘汰赛里互相拆解。
+        名字决定属性与学派，也决定结局——同样的名字，永远打出同样的结果。
+      </p>
+    </header>
+
+    <main class="layout">
+      <aside class="panel controls">
+        <div class="label-row">
+          <label class="label" for="names">参赛者</label>
+          <span class="count" id="count">4 位</span>
+        </div>
+
+        <textarea id="names" class="names" rows="8" spellcheck="false"
+                  placeholder="每行一个名字&#10;苏格拉底&#10;柏拉图"></textarea>
+
+        <div class="presets" role="group" aria-label="预设名单">
+          <button type="button" class="chip" data-preset="ancient">古希腊</button>
+          <button type="button" class="chip" data-preset="german">德国观念论</button>
+          <button type="button" class="chip" data-preset="exist">存在主义</button>
+          <button type="button" class="chip" data-preset="analytic">分析哲学</button>
+          <button type="button" class="chip" data-preset="random">随机八人</button>
+        </div>
+
+        <p class="hint">每行一个名字，2–16 位。<br />重名会自动合并，顺序不影响结果。</p>
+
+        <button type="button" class="btn-primary" id="start">开始辩论</button>
+        <p class="error" id="error" role="alert"></p>
+
+        <div class="speed" id="speed" hidden>
+          <span class="speed-label">速度</span>
+          <button type="button" data-speed="1.7">慢</button>
+          <button type="button" data-speed="1" class="on">正常</button>
+          <button type="button" data-speed="0.45">快</button>
+          <button type="button" data-skip="1">跳过</button>
+        </div>
+      </aside>
+
+      <section class="stage">
+        <div class="stage-head">
+          <h2>赛程</h2>
+          <span class="seed" id="seed" hidden></span>
+        </div>
+
+        <div class="bracket" id="bracket" aria-label="淘汰赛对阵图"></div>
+
+        <div class="champion" id="champion" hidden></div>
+
+        <div class="log-head">
+          <h2>战报</h2>
+          <span class="log-hint">自动播放，无需操作</span>
+        </div>
+        <div class="log" id="log" role="log" aria-live="polite" aria-label="对战记录"></div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <p>名字哈希出属性，属性决定学派，学派决定招式。像不像真的？那不重要。</p>
+    </footer>
+  </div>
+
+  <script src="engine.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
