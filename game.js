@@ -22,7 +22,17 @@
     bracket: $("#bracket"),
     seed: $("#seed"),
     champion: $("#champion"),
+    stageTitle: $("#stage-title"),
     log: $("#log"),
+    cardModal: $("#card-modal"),
+    cardPortrait: $("#card-portrait"),
+    cardSchool: $("#card-school"),
+    cardEval: $("#card-eval"),
+    cardName: $("#card-name"),
+    cardStats: $("#card-stats"),
+    cardSig: $("#card-sig"),
+    cardTrait: $("#card-trait"),
+    cardQuote: $("#card-quote"),
   };
 
   /* ---------------- 预设名单 ---------------- */
@@ -33,13 +43,6 @@
     exist: ["克尔凯郭尔", "海德格尔", "萨特", "加缪", "波伏娃", "雅斯贝尔斯", "梅洛-庞蒂", "列维纳斯"],
     analytic: ["弗雷格", "罗素", "维特根斯坦", "卡尔纳普", "蒯因", "戴维森", "克里普克", "刘易斯"],
   };
-
-  const POOL = [].concat(
-    PRESETS.ancient, PRESETS.german, PRESETS.exist, PRESETS.analytic,
-    ["阿奎那", "奥古斯丁", "斯宾诺莎", "莱布尼茨", "休谟", "洛克", "贝克莱", "卢梭",
-      "孟德斯鸠", "福柯", "德里达", "德勒兹", "拉康", "阿多诺", "本雅明", "哈贝马斯",
-      "罗尔斯", "诺齐克", "伯林", "哈耶克", "杜威", "詹姆斯", "皮尔士", "怀特海"]
-  );
 
   const DEFAULT_NAMES = ["苏格拉底", "柏拉图", "亚里士多德", "尼采"];
 
@@ -106,8 +109,19 @@
 
     const name = el("span", "fname", fighter.name);
     name.title = fighter.name;
+    row.tabIndex = 0;
+    row.setAttribute("role", "button");
+    row.addEventListener("click", () => openCard(fighter.name));
+    row.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openCard(fighter.name);
+      }
+    });
+    row.title = fighter.name + " · " + fighter.school.name +
+      " · 被动「" + fighter.trait.name + "」：" + (fighter.trait.reason || fighter.trait.desc);
 
-    const school = el("span", "fschool", E.STAT_NAMES[fighter.school.key]);
+    const school = el("span", "fschool", fighter.shortEval || fighter.epithet || "");
     const hp = el("span", "fhp", String(fighter.maxHp));
     hp.dataset.max = String(fighter.maxHp);
 
@@ -128,33 +142,14 @@
     return card;
   }
 
-  function renderBracket(tour) {
+  function renderBracketShell(tour) {
     state.cards.clear();
+    state.tour = tour;
+    state.revealed = 0;
     els.bracket.textContent = "";
+    if (els.stageTitle) els.stageTitle.textContent = "赛程";
 
-    tour.rounds.forEach((round, ri) => {
-      const col = el("div", "round");
-      col.appendChild(el("div", "round-title", round.title));
-
-      const body = el("div", "round-body");
-      round.matches.forEach((match, mi) => {
-        if (match.bye) {
-          const solo = match.a || match.b;
-          if (!solo) return;
-          const bye = el("div", "bye-card");
-          bye.append("轮空 · ");
-          bye.appendChild(el("strong", null, solo.name));
-          body.appendChild(bye);
-          return;
-        }
-        body.appendChild(matchCard(match, ri, mi));
-      });
-
-      col.appendChild(body);
-      els.bracket.appendChild(col);
-    });
-
-    // 冠军列占位，让对阵图有"终点"
+    // 冠军列先占位，后续轮次插在它前面
     const col = el("div", "round");
     col.appendChild(el("div", "round-title", "冠军"));
     const body = el("div", "round-body");
@@ -162,6 +157,103 @@
     body.appendChild(state.championSlot);
     col.appendChild(body);
     els.bracket.appendChild(col);
+    state.championCol = col;
+  }
+
+  function renderRound(roundIndex) {
+    const round = state.tour.rounds[roundIndex];
+    const col = el("div", "round");
+    col.appendChild(el("div", "round-title", round.title));
+
+    const body = el("div", "round-body");
+    round.matches.forEach((match, mi) => {
+      if (match.bye) {
+        const solo = match.a || match.b;
+        if (!solo) return;
+        const bye = el("div", "bye-card");
+        bye.append("轮空 · ");
+        bye.appendChild(el("strong", null, solo.name));
+        body.appendChild(bye);
+        return;
+      }
+      body.appendChild(matchCard(match, roundIndex, mi));
+    });
+
+    col.appendChild(body);
+    els.bracket.insertBefore(col, state.championCol);
+    state.revealed = roundIndex + 1;
+  }
+
+  /* ---------------- 赛前名录 ---------------- */
+
+  function portraitNode(name, size, className) {
+    const wrap = el("div", className || null);
+    const img = document.createElement("img");
+    img.alt = name;
+    img.width = size;
+    img.height = size;
+    img.style.width = "100%";
+    img.style.height = "100%";
+    img.style.objectFit = "cover";
+    img.style.display = "block";
+
+    // 原样文件名优先；file:// 下各浏览器对非 ASCII 文件名的解析不一致，再试百分号编码
+    const candidates = [
+      "portraits/" + name + ".jpg",
+      "portraits/" + encodeURIComponent(name) + ".jpg",
+      "portraits/" + name + ".png",
+      "portraits/" + name + ".webp",
+    ];
+    let attempt = 0;
+    img.src = candidates[0];
+    img.addEventListener("load", () => {
+      console.log("[portrait] 已加载:", img.currentSrc || img.src);
+    });
+    img.addEventListener("error", () => {
+      attempt++;
+      if (attempt < candidates.length) {
+        img.src = candidates[attempt];
+        return;
+      }
+      console.warn("[portrait] 没有找到图片，退回内置肖像：", name);
+      wrap.textContent = "";
+      if (window.PhiloAvatars) wrap.innerHTML = window.PhiloAvatars.svgFor(name, size);
+    });
+    wrap.appendChild(img);
+    return wrap;
+  }
+
+  function renderRoster() {
+    if (state.playing) return;
+    const names = parseNames(els.names.value).slice(0, 16);
+    els.bracket.textContent = "";
+    if (els.stageTitle) els.stageTitle.textContent = "参赛者";
+
+    if (names.length < 2) {
+      const box = el("div", "bracket-empty");
+      box.append(el("p", null, "至少输入两个名字"), el("small", null, "每行一个，最多 16 位"));
+      els.bracket.appendChild(box);
+      return;
+    }
+
+    const grid = el("div", "roster");
+    names.forEach((name) => {
+      const fighter = E.makeFighter(name);
+      const card = el("button", "roster-card");
+      card.type = "button";
+      card.appendChild(portraitNode(name, 56, "roster-avatar"));
+
+      const meta = el("div", "roster-meta");
+      meta.append(
+        el("span", "roster-name", name),
+        el("span", "roster-school", fighter.shortEval || fighter.epithet || fighter.school.name)
+      );
+      card.appendChild(meta);
+
+      card.addEventListener("click", () => openCard(name));
+      grid.appendChild(card);
+    });
+    els.bracket.appendChild(grid);
   }
 
   /* ---------------- 战报与血条 ---------------- */
@@ -273,11 +365,23 @@
     main.appendChild(el("p", "champion-tag", "CHAMPION"));
     main.appendChild(el("h3", null, champion.name));
     main.appendChild(el("p", "champion-quote", champion.quote));
+    if (champion.source) {
+      main.appendChild(el("p", "champion-source", "—— " + champion.source));
+    }
+    main.appendChild(
+      el("p", "champion-trait",
+        "被动 · " + champion.trait.name + "：" + (champion.trait.reason || champion.trait.desc) +
+        (champion.signature ? "　｜　专属招式 · " + champion.signature.name : ""))
+    );
 
     const actions = el("div", "champion-actions");
     const copyBtn = el("button", "btn-ghost", "复制战绩");
     copyBtn.type = "button";
     copyBtn.addEventListener("click", () => copyResult(copyBtn, tour));
+
+    const cardBtn = el("button", "btn-ghost", "人物卡");
+    cardBtn.type = "button";
+    cardBtn.addEventListener("click", () => openCard(champion.name));
 
     const againBtn = el("button", "btn-ghost", "换一组随机");
     againBtn.type = "button";
@@ -286,7 +390,7 @@
       startGame();
     });
 
-    actions.append(copyBtn, againBtn);
+    actions.append(cardBtn, copyBtn, againBtn);
     main.appendChild(actions);
 
     els.champion.append(main, championStats(champion));
@@ -305,7 +409,11 @@
     els.log.textContent = "";
     els.speed.hidden = false;
 
-    for (const round of tour.rounds) {
+    for (let roundIndex = 0; roundIndex < tour.rounds.length; roundIndex++) {
+      const round = tour.rounds[roundIndex];
+      renderRound(roundIndex);
+      els.bracket.scrollTo({ left: els.bracket.scrollWidth, behavior: "smooth" });
+      await sleep(320);
       for (const match of round.matches) {
         if (match.bye) continue;
         if (token !== state.token) return;
@@ -355,9 +463,10 @@
 
     state.tour = tour;
     els.seed.textContent = "#" + tour.seed;
+    els.seed.title = "这一局的编号，可以抄下来分享";
     els.seed.hidden = false;
 
-    renderBracket(tour);
+    renderBracketShell(tour);
 
     els.log.textContent = "";
     play(tour).catch((err) => {
@@ -366,13 +475,71 @@
     });
   }
 
+
+
+  /* ---------------- 人物卡 ---------------- */
+
+  function openCard(name) {
+    const fighter = E.makeFighter(name);
+    els.cardPortrait.textContent = "";
+    els.cardPortrait.appendChild(portraitNode(name, 220, null));
+    els.cardSchool.textContent = fighter.epithet || fighter.school.name;
+    els.cardEval.textContent = fighter.evaluation || "";
+    els.cardName.textContent = fighter.name;
+
+    els.cardStats.textContent = "";
+    E.STAT_KEYS.forEach((key) => {
+      const row = el("div", "card-stat");
+      row.appendChild(el("span", null, E.STAT_NAMES[key]));
+      const bar = el("div", "sb");
+      const fill = document.createElement("i");
+      fill.style.width = fighter.stats[key] + "%";
+      bar.appendChild(fill);
+      row.append(bar, el("b", null, String(fighter.stats[key])));
+      els.cardStats.appendChild(row);
+    });
+
+    els.cardSig.textContent = fighter.signature
+      ? "专属招式 · " + fighter.signature.name + "（" + E.STAT_NAMES[fighter.signature.stat] + "）"
+      : "招式 · 通用论辩术";
+    els.cardTrait.textContent = "被动 · " + fighter.trait.name + "：" +
+      (fighter.trait.reason || fighter.trait.desc);
+
+    els.cardQuote.textContent = "「" + fighter.quote + "」";
+    if (fighter.source) {
+      const src = document.createElement("span");
+      src.textContent = "—— " + fighter.source;
+      els.cardQuote.appendChild(src);
+    }
+
+    els.cardModal.hidden = false;
+    document.body.classList.add("card-open");
+  }
+
+  function closeCard() {
+    els.cardModal.hidden = true;
+    document.body.classList.remove("card-open");
+  }
+
+  els.cardModal.addEventListener("click", (event) => {
+    if (event.target.hasAttribute("data-close")) closeCard();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !els.cardModal.hidden) closeCard();
+  });
+
   /* ---------------- 交互绑定 ---------------- */
 
   function applyPreset(key) {
     let names;
     if (key === "random") {
+      // 只从有名录（因而有画像、有专属招式）的人里挑
+      const roster = Object.keys(E.PHILOSOPHERS);
       const picked = new Set();
-      while (picked.size < 8) picked.add(POOL[Math.floor(Math.random() * POOL.length)]);
+      while (picked.size < Math.min(8, roster.length)) {
+        picked.add(roster[Math.floor(Math.random() * roster.length)]);
+      }
       names = Array.from(picked);
     } else {
       names = PRESETS[key] || DEFAULT_NAMES;
@@ -382,7 +549,12 @@
     setError("");
   }
 
-  els.names.addEventListener("input", updateCount);
+  let rosterTimer = null;
+  els.names.addEventListener("input", () => {
+    updateCount();
+    clearTimeout(rosterTimer);
+    rosterTimer = setTimeout(renderRoster, 180);
+  });
 
   document.querySelectorAll(".chip").forEach((chip) => {
     chip.addEventListener("click", () => applyPreset(chip.dataset.preset));
@@ -410,5 +582,5 @@
 
   els.names.value = DEFAULT_NAMES.join("\n");
   updateCount();
-  renderEmpty();
+  renderRoster();
 })();

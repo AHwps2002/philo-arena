@@ -1,4 +1,4 @@
-﻿Thumbs.db
-.DS_Store
-desktop.ini
-preview.png
+﻿__pycache__/
+*.pyc
+preview-*.png
+!preview-portraits.png

@@ -10,11 +10,11 @@
 <body>
   <div class="app">
     <header class="masthead">
-      <p class="kicker">NAME ARENA · 哲学篇</p>
+      <p class="kicker">PHILOSOPHY ARENA</p>
       <h1>哲学竞技场</h1>
       <p class="lede">
-        输入几个名字，看他们如何在淘汰赛里互相拆解。
-        名字决定属性与学派，也决定结局——同样的名字，永远打出同样的结果。
+        把几位哲学家请进同一座竞技场，让他们的观点短兵相接。
+        你只负责点名，怎么打是他们的事。
       </p>
     </header>
 
@@ -36,7 +36,7 @@
           <button type="button" class="chip" data-preset="random">随机八人</button>
         </div>
 
-        <p class="hint">每行一个名字，2–16 位。<br />重名会自动合并，顺序不影响结果。</p>
+        <p class="hint">每行一个名字，2 到 16 位。<br />想加谁就加谁。</p>
 
         <button type="button" class="btn-primary" id="start">开始辩论</button>
         <p class="error" id="error" role="alert"></p>
@@ -52,7 +52,7 @@
 
       <section class="stage">
         <div class="stage-head">
-          <h2>赛程</h2>
+          <h2 id="stage-title">赛程</h2>
           <span class="seed" id="seed" hidden></span>
         </div>
 
@@ -69,11 +69,29 @@
     </main>
 
     <footer class="foot">
-      <p>名字哈希出属性，属性决定学派，学派决定招式。像不像真的？那不重要。</p>
+      <p>胜负是游戏的事。他们真正争论过的东西，比这难判得多。</p>
     </footer>
   </div>
 
+
+  <div class="card-modal" id="card-modal" hidden>
+    <div class="card-backdrop" data-close></div>
+    <div class="card-panel" role="dialog" aria-modal="true" aria-labelledby="card-name">
+      <button class="card-close" type="button" aria-label="关闭" data-close>×</button>
+      <div class="card-portrait" id="card-portrait"></div>
+      <div class="card-content">
+        <p class="card-school" id="card-school"></p>
+        <h3 class="card-name" id="card-name"></h3>
+        <p class="card-eval" id="card-eval"></p>
+        <div class="card-stats" id="card-stats"></div>
+        <p class="card-line" id="card-sig"></p>
+        <p class="card-line" id="card-trait"></p>
+        <p class="card-quote" id="card-quote"></p>
+      </div>
+    </div>
+  </div>
   <script src="engine.js"></script>
+  <script src="avatars.js"></script>
   <script src="game.js"></script>
 </body>
 </html>
