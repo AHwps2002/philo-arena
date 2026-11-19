@@ -599,7 +599,7 @@
       {
         kind: "intro",
         text:
-          "「" + a.name + "」（" + a.school.name + "）对阵「" + b.name + "」（" + b.school.name + "）",
+          "「" + a.name + "」（" + (a.epithet || a.school.name) + "）对阵「" + b.name + "」（" + (b.epithet || b.school.name) + "）",
         hpA: hpA,
         hpB: hpB,
       },

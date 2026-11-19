@@ -118,7 +118,7 @@
         openCard(fighter.name);
       }
     });
-    row.title = fighter.name + " · " + fighter.school.name +
+    row.title = fighter.name + " · " + (fighter.epithet || fighter.school.name) +
       " · 被动「" + fighter.trait.name + "」：" + (fighter.trait.reason || fighter.trait.desc);
 
     const school = el("span", "fschool", fighter.shortEval || fighter.epithet || "");
@@ -325,7 +325,7 @@
   function resultText(tour) {
     return [
       "哲学竞技场 #" + tour.seed,
-      "冠军：" + tour.champion.name + "（" + tour.champion.school.name + "）",
+      "冠军：" + tour.champion.name + "（" + (tour.champion.epithet || tour.champion.school.name) + "）",
       "名单：" + tour.names.join("、"),
     ].join("\n");
   }
@@ -442,7 +442,7 @@
     if (token !== state.token) return;
 
     showChampion(tour.champion, tour);
-    appendLog({ kind: "outro", text: "—— 本届冠军：" + tour.champion.name + "（" + tour.champion.school.name + "）——" });
+    appendLog({ kind: "outro", text: "—— 本届冠军：" + tour.champion.name + "（" + (tour.champion.epithet || tour.champion.school.name) + "）——" });
 
     state.playing = false;
     els.start.disabled = false;
