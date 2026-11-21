@@ -320,6 +320,14 @@
       row.append(bar, el("b", null, String(fighter.stats[key])));
       wrap.appendChild(row);
     });
+    const frow = el("div", "stat-row");
+    frow.appendChild(el("span", null, "武力"));
+    const fbar = el("div", "sb");
+    const ffill = document.createElement("i");
+    ffill.style.width = fighter.force + "%";
+    fbar.appendChild(ffill);
+    frow.append(fbar, el("b", null, String(fighter.force)));
+    wrap.appendChild(frow);
     return wrap;
   }
 
@@ -499,6 +507,15 @@
       row.append(bar, el("b", null, String(fighter.stats[key])));
       els.cardStats.appendChild(row);
     });
+
+    const frow = el("div", "card-stat");
+    frow.appendChild(el("span", null, "武力"));
+    const fbar = el("div", "sb");
+    const ffill = document.createElement("i");
+    ffill.style.width = fighter.force + "%";
+    fbar.appendChild(ffill);
+    frow.append(fbar, el("b", null, String(fighter.force)));
+    els.cardStats.appendChild(frow);
 
     els.cardSig.textContent = fighter.signature
       ? "专属招式 · " + fighter.signature.name + "（" + E.STAT_NAMES[fighter.signature.stat] + "）"

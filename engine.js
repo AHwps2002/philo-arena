@@ -103,6 +103,7 @@
   const PHILOSOPHERS = {
     "苏格拉底": {
       stats: { logic: 70, rhetoric: 88, insight: 82, will: 75 },
+      force: 72,
       school: "logic",
       epithet: "诘问者",
       shortEval: "诘问逼人认输",
@@ -114,6 +115,7 @@
     },
     "柏拉图": {
       stats: { logic: 82, rhetoric: 80, insight: 90, will: 70 },
+      force: 66,
       school: "rhetoric",
       epithet: "洞穴",
       shortEval: "世界分成两半",
@@ -125,6 +127,7 @@
     },
     "亚里士多德": {
       stats: { logic: 92, rhetoric: 75, insight: 80, will: 68 },
+      force: 58,
       school: "logic",
       epithet: "分类者",
       shortEval: "知识分门别类",
@@ -136,6 +139,7 @@
     },
     "尼采": {
       stats: { logic: 60, rhetoric: 85, insight: 88, will: 95 },
+      force: 55,
       school: "will",
       epithet: "锤子",
       shortEval: "格言砸碎体系",
@@ -147,6 +151,7 @@
     },
     "康德": {
       stats: { logic: 90, rhetoric: 62, insight: 78, will: 80 },
+      force: 28,
       school: "logic",
       epithet: "界碑",
       shortEval: "给理性划界",
@@ -158,6 +163,7 @@
     },
     "黑格尔": {
       stats: { logic: 84, rhetoric: 70, insight: 76, will: 74 },
+      force: 34,
       school: "logic",
       epithet: "体系",
       shortEval: "历史写进逻辑",
@@ -169,6 +175,7 @@
     },
     "维特根斯坦": {
       stats: { logic: 85, rhetoric: 60, insight: 92, will: 65 },
+      force: 78,
       school: "insight",
       epithet: "沉默",
       shortEval: "让问题消散",
@@ -180,6 +187,7 @@
     },
     "加缪": {
       stats: { logic: 58, rhetoric: 78, insight: 80, will: 84 },
+      force: 52,
       school: "will",
       epithet: "反抗者",
       shortEval: "在荒谬里反抗",
@@ -191,6 +199,7 @@
     },
     "萨特": {
       stats: { logic: 66, rhetoric: 78, insight: 74, will: 86 },
+      force: 44,
       school: "will",
       epithet: "自由",
       shortEval: "自由即判决",
@@ -202,6 +211,7 @@
     },
     "海德格尔": {
       stats: { logic: 76, rhetoric: 64, insight: 90, will: 72 },
+      force: 46,
       school: "insight",
       epithet: "林中路",
       shortEval: "重新追问存在",
@@ -213,6 +223,7 @@
     },
     "叔本华": {
       stats: { logic: 68, rhetoric: 70, insight: 76, will: 88 },
+      force: 48,
       school: "will",
       epithet: "意志",
       shortEval: "看透欲望虚妄",
@@ -224,6 +235,7 @@
     },
     "马克思": {
       stats: { logic: 78, rhetoric: 76, insight: 74, will: 78 },
+      force: 68,
       school: "logic",
       epithet: "实践",
       shortEval: "不只解释世界",
@@ -235,6 +247,7 @@
     },
     "第欧根尼": {
       stats: { logic: 55, rhetoric: 90, insight: 70, will: 78 },
+      force: 86,
       school: "rhetoric",
       epithet: "木桶",
       shortEval: "用生活反驳文明",
@@ -246,6 +259,7 @@
     },
     "赫拉克利特": {
       stats: { logic: 70, rhetoric: 74, insight: 82, will: 72 },
+      force: 62,
       school: "insight",
       epithet: "河流",
       shortEval: "万物皆流",
@@ -257,6 +271,7 @@
     },
     "巴门尼德": {
       stats: { logic: 86, rhetoric: 52, insight: 74, will: 78 },
+      force: 44,
       school: "logic",
       epithet: "存在",
       shortEval: "存在者存在",
@@ -268,6 +283,7 @@
     },
     "芝诺": {
       stats: { logic: 88, rhetoric: 66, insight: 72, will: 60 },
+      force: 82,
       school: "logic",
       epithet: "飞矢",
       shortEval: "让运动成悖论",
@@ -279,6 +295,7 @@
     },
     "休谟": {
       stats: { logic: 78, rhetoric: 62, insight: 84, will: 58 },
+      force: 30,
       school: "insight",
       epithet: "怀疑",
       shortEval: "因果只是习惯",
@@ -290,6 +307,7 @@
     },
     "斯宾诺莎": {
       stats: { logic: 90, rhetoric: 50, insight: 76, will: 72 },
+      force: 36,
       school: "logic",
       epithet: "几何",
       shortEval: "几何写伦理",
@@ -301,6 +319,7 @@
     },
     "克尔凯郭尔": {
       stats: { logic: 60, rhetoric: 76, insight: 74, will: 84 },
+      force: 42,
       school: "rhetoric",
       epithet: "跳跃",
       shortEval: "跳过论证去信",
@@ -312,6 +331,7 @@
     },
     "波伏娃": {
       stats: { logic: 72, rhetoric: 84, insight: 78, will: 76 },
+      force: 38,
       school: "rhetoric",
       epithet: "第二性",
       shortEval: "女人是变成的",
@@ -323,6 +343,7 @@
     },
     "罗素": {
       stats: { logic: 91, rhetoric: 68, insight: 76, will: 62 },
+      force: 54,
       school: "logic",
       epithet: "逻辑",
       shortEval: "逻辑磨成刀",
@@ -334,6 +355,7 @@
     },
     "弗雷格": {
       stats: { logic: 93, rhetoric: 45, insight: 70, will: 55 },
+      force: 26,
       school: "logic",
       epithet: "指称",
       shortEval: "重写逻辑底座",
@@ -345,6 +367,7 @@
     },
     "毕达哥拉斯": {
       stats: { logic: 78, rhetoric: 55, insight: 88, will: 70 },
+      force: 48,
       school: "insight",
       epithet: "数",
       shortEval: "数是万物本原",
@@ -356,6 +379,7 @@
     },
     "费希特": {
       stats: { logic: 84, rhetoric: 60, insight: 72, will: 86 },
+      force: 50,
       school: "will",
       epithet: "自我",
       shortEval: "自我设定世界",
@@ -367,6 +391,7 @@
     },
     "谢林": {
       stats: { logic: 74, rhetoric: 58, insight: 84, will: 76 },
+      force: 42,
       school: "insight",
       epithet: "同一",
       shortEval: "自然即精神",
@@ -378,6 +403,7 @@
     },
     "胡塞尔": {
       stats: { logic: 80, rhetoric: 55, insight: 90, will: 70 },
+      force: 32,
       school: "insight",
       epithet: "悬置",
       shortEval: "回到事情本身",
@@ -389,6 +415,7 @@
     },
     "雅斯贝尔斯": {
       stats: { logic: 70, rhetoric: 72, insight: 80, will: 78 },
+      force: 34,
       school: "will",
       epithet: "临界",
       shortEval: "临界处唤醒",
@@ -400,6 +427,7 @@
     },
     "梅洛-庞蒂": {
       stats: { logic: 68, rhetoric: 74, insight: 86, will: 72 },
+      force: 40,
       school: "insight",
       epithet: "身体",
       shortEval: "身体先于判断",
@@ -411,6 +439,7 @@
     },
     "列维纳斯": {
       stats: { logic: 66, rhetoric: 80, insight: 82, will: 74 },
+      force: 30,
       school: "insight",
       epithet: "面容",
       shortEval: "伦理是第一哲学",
@@ -422,6 +451,7 @@
     },
     "卡尔纳普": {
       stats: { logic: 92, rhetoric: 48, insight: 72, will: 58 },
+      force: 38,
       school: "logic",
       epithet: "句法",
       shortEval: "清除形而上学",
@@ -433,6 +463,7 @@
     },
     "蒯因": {
       stats: { logic: 88, rhetoric: 58, insight: 78, will: 62 },
+      force: 34,
       school: "logic",
       epithet: "信念网",
       shortEval: "信念织成网",
@@ -444,6 +475,7 @@
     },
     "戴维森": {
       stats: { logic: 86, rhetoric: 62, insight: 80, will: 60 },
+      force: 36,
       school: "logic",
       epithet: "宽容",
       shortEval: "以宽容求解释",
@@ -455,6 +487,7 @@
     },
     "克里普克": {
       stats: { logic: 90, rhetoric: 55, insight: 78, will: 60 },
+      force: 28,
       school: "logic",
       epithet: "必然",
       shortEval: "可能世界定必然",
@@ -466,6 +499,7 @@
     },
     "刘易斯": {
       stats: { logic: 88, rhetoric: 60, insight: 84, will: 62 },
+      force: 30,
       school: "logic",
       epithet: "可能世界",
       shortEval: "一切可能皆真",
@@ -537,6 +571,7 @@
         stats: stats,
         school: SCHOOLS[schoolKey],
         maxHp: Math.round(120 + stats.will * 0.6),
+        force: known.force,
         quote: known.quote,
         source: known.source,
         epithet: known.epithet,
@@ -565,6 +600,7 @@
       stats: stats,
       school: SCHOOLS[schoolKey],
       maxHp: Math.round(120 + stats.will * 0.6),
+      force: 30 + Math.floor(rng() * 50),
       quote: QUOTES[Math.floor(rng() * QUOTES.length)],
       trait: Object.assign({ type: traitType, value: 0.15 + rng() * 0.2 }, TRAITS[traitType]),
       known: false,
@@ -573,6 +609,15 @@
   }
 
   /* ---------------- 一场辩论 ---------------- */
+
+  const FORCE_ACTS = [
+    "掀了桌子",
+    "掀翻讲台",
+    "抄起手杖",
+    "摔了杯子",
+    "把书砸了过去",
+    "一掌拍在桌上",
+  ];
 
   const TEMPLATES = {
     hit: [
@@ -591,6 +636,8 @@
 
     let hpA = a.maxHp;
     let hpB = b.maxHp;
+    let usedForceA = false;
+    let usedForceB = false;
     let armorA = a.trait.type === "armor" ? a.trait.value : 0;
     let armorB = b.trait.type === "armor" ? b.trait.value : 0;
 
@@ -611,6 +658,32 @@
       const isA = turn === "a";
       const atk = isA ? a : b;
       const def = isA ? b : a;
+
+      // 动武：立场降到四成以下时可能不再讲道理，每人每场一次
+      const ownHpNow = isA ? hpA : hpB;
+      const forceUsed = isA ? usedForceA : usedForceB;
+      if (!forceUsed && ownHpNow / atk.maxHp <= 0.32 && rng() < 0.45 + atk.force / 600) {
+        if (isA) usedForceA = true;
+        else usedForceB = true;
+        const hit = Math.round(10 + atk.force * 0.3);
+        if (isA) {
+          hpB = Math.max(0, hpB - hit);
+          hpA = Math.max(0, hpA - 5);
+        } else {
+          hpA = Math.max(0, hpA - hit);
+          hpB = Math.max(0, hpB - 5);
+        }
+        log.push({
+          kind: "crit",
+          text:
+            "「" + atk.name + "」不再讲道理——" + pick(rng, FORCE_ACTS) + "，" +
+            def.name + " 挨了 " + hit + " 点（自己也失了 5 点体面）。",
+          hpA: hpA,
+          hpB: hpB,
+        });
+        turn = isA ? "b" : "a";
+        continue;
+      }
 
       const move = pick(rng, atk.moves);
       const base = move.power + atk.stats[move.stat] * 0.25;
