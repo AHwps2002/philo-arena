@@ -121,7 +121,7 @@
     row.title = fighter.name + " · " + (fighter.epithet || fighter.school.name) +
       " · 被动「" + fighter.trait.name + "」：" + (fighter.trait.reason || fighter.trait.desc);
 
-    const school = el("span", "fschool", fighter.shortEval || fighter.epithet || "");
+    const school = el("span", "fschool", fighter.epithet || fighter.school.name);
     const hp = el("span", "fhp", String(fighter.maxHp));
     hp.dataset.max = String(fighter.maxHp);
 
@@ -242,11 +242,12 @@
       const card = el("button", "roster-card");
       card.type = "button";
       card.appendChild(portraitNode(name, 56, "roster-avatar"));
+      card.title = fighter.shortEval || "";
 
       const meta = el("div", "roster-meta");
       meta.append(
         el("span", "roster-name", name),
-        el("span", "roster-school", fighter.shortEval || fighter.epithet || fighter.school.name)
+        el("span", "roster-school", fighter.epithet || fighter.school.name)
       );
       card.appendChild(meta);
 
